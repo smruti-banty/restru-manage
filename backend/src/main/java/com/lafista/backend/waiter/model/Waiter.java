@@ -2,6 +2,7 @@ package com.lafista.backend.waiter.model;
 
 import com.lafista.backend.table.model.RestaurantTable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,8 @@ public class Waiter {
 
     private String waiterName;
 
-    private String employeeCode;
+    // @Column(unique = true)
+    // private String employeeCode;
 
     private int waiterAge;
 

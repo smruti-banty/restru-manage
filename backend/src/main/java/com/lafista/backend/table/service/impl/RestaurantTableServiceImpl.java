@@ -15,21 +15,30 @@ import java.util.List;
 public class RestaurantTableServiceImpl implements RestaurantTableService {
     private final RestaurantTableRepository tableRepository;
 
-    public RestaurantTable addTable(RestaurantTable table) {
-        return tableRepository.save(table);
-    }
-
-    public void deleteTable(String tableId) {
-        tableRepository.deleteById(tableId);
+    public RestaurantTable getTableById(String tableId) {
+        var table = tableRepository.findById(tableId);
+        return table.orElseThrow(() -> new RuntimeException("Table Id Not Found"));
     }
 
     public List<RestaurantTable> getAllTables() {
         return tableRepository.findAll();
     }
 
-    public RestaurantTable getTableById(String tableId) {
-        var table = tableRepository.findById(tableId);
-
-        return table.orElseThrow(() -> new RuntimeException("Table Id Not Found"));
+    public RestaurantTable addTable(RestaurantTable table) {
+        return tableRepository.save(table);
     }
+
+    public void updateTable(String tableId, RestaurantTable newTable) {
+        if (!tableRepository.existsById(tableId)) {
+            throw new RuntimeException("Table Not Found");
+        }
+
+        newTable.setTableId(tableId);
+        tableRepository.save(newTable);
+    }
+
+    public void deleteTable(String tableId) {
+        tableRepository.deleteById(tableId);
+    }
+
 }
