@@ -2,6 +2,7 @@ package com.lafista.backend.item.impl;
 
 import java.util.List;
 
+import com.lafista.backend.item.dto.ItemResponseDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,17 @@ public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
 
     @Override
-    public Item addItem(Item item) {
+    public ItemResponseDto addItem(Item item) {
         System.out.println(item.getCategory());
         item.getCategory().getAllItems().add(item);
-        return itemRepository.save(item);
+        itemRepository.save(item);
+
+        var dto = new ItemResponseDto(item.getItemId(),
+                item.getItemName(), item.getItemPrice(),
+                item.getCategory().getCategoryId(), item.getCategory().getCategoryName());
+
+
+        return dto;
     }
 
     @Override

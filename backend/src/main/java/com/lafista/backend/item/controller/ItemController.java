@@ -2,6 +2,7 @@ package com.lafista.backend.item.controller;
 
 import java.util.List;
 
+import com.lafista.backend.item.dto.ItemResponseDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -33,18 +34,14 @@ public class ItemController {
 
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Item addItem(@RequestBody ItemDto itemDto) {
+    public ItemResponseDto addItem(@RequestBody ItemDto itemDto) {
         var item = new Item();
         BeanUtils.copyProperties(itemDto, item);
 
-        var result = categoryService.getCategoryById(itemDto.categoryId());
-        var category = new Category();
-
-        BeanUtils.copyProperties(result, category);
+        var category = categoryService.getCategoryById(itemDto.categoryId());
         item.setCategory(category);
 
-        // return itemService.addItem(item);
-        return item;
+        return itemService.addItem(item);
     }
 
     @GetMapping
