@@ -1,7 +1,9 @@
 package com.lafista.backend.item.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lafista.backend.category.model.Category;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,13 +27,14 @@ import lombok.Setter;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @JsonIgnore
     private String itemId;
 
     private String itemName;
 
     private String itemPrice;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private Category category;
 }
